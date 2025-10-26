@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>HEROTO | Portfolio</title>
+<style>
+:root{--bg:#fff;--ink:#121212;--muted:#6b6b6b;--edge:#eee;
+--maxw:1320px;--padX:clamp(16px,4vw,56px);--gap:40px;--entry-gap:120px;
+--radius:18px;--shadow:0 18px 60px rgba(0,0,0,.08);--pop:cubic-bezier(.2,.85,.2,1);--slide:96px}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);
+font-family:ui-sans-serif,system-ui,"Noto Sans JP","Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--padX)}
+header{position:sticky;top:0;z-index:20;border-bottom:1px solid var(--edge);
+background:linear-gradient(to bottom,rgba(255,255,255,.97),rgba(255,255,255,.72) 70%,rgba(255,255,255,.28));
+backdrop-filter:saturate(120%) blur(6px)}.nav{height:72px;display:flex;align-items:center;justify-content:space-between}
+.brand{letter-spacing:.28em;font-weight:800}
+.hero{min-height:28vh;display:grid;place-items:center;text-align:center}
+.hero h1{font-size:clamp(28px,6.5vw,56px);letter-spacing:.22em;margin:.2em 0 .25em;text-transform:uppercase}
+.hero p{color:var(--muted);letter-spacing:.06em;margin:0}
+.section{padding:18px 0 6px;margin-top:10px}.section h2{font-size:clamp(18px,2.2vw,24px);letter-spacing:.18em;text-transform:uppercase;margin:0 0 8px}
+.rule{height:1px;background:linear-gradient(90deg,transparent,#e9e9e9,transparent);margin:16px 0 24px}
+.flow{display:flex;flex-direction:column;gap:var(--entry-gap);padding:8px 0 120px}
+.entry{display:grid;align-items:center;gap:var(--gap);grid-template-columns:minmax(42%,58%) 1fr}
+.entry.alt{grid-template-columns:1fr minmax(42%,58%)}
+.media{position:relative;border-radius:var(--radius);overflow:hidden;background:#f5f5f5;
+min-height:clamp(320px,54vh,520px);box-shadow:var(--shadow)}
+.ph{width:100%;height:100%;object-fit:cover;transform:scale(1.005);
+filter:grayscale(10%) saturate(.98) contrast(1.05) brightness(.98);
+transition:transform .5s var(--pop),filter .5s var(--pop)}
+.media:hover .ph{transform:scale(1.02);filter:grayscale(4%) contrast(1.08)}
+.text{display:flex;flex-direction:column;gap:12px;justify-content:center}
+.eyebrow{color:var(--muted);font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+.title{font-weight:900;letter-spacing:.01em;font-size:clamp(18px,2.2vw,28px);margin:0}
+.body{color:#222;line-height:1.95;margin-top:4px;font-size:clamp(14px,1.12vw,16px)}
+.reveal{opacity:0;transition:opacity .9s var(--pop),transform 1.05s var(--pop)}
+.from-right{transform:translate(var(--slide),26px)}.from-left{transform:translate(calc(var(--slide)*-1),26px)}.reveal.in{opacity:1;transform:none}
+@media(max-width:980px){.entry,.entry.alt{grid-template-columns:1fr}.media{min-height:clamp(240px,48vh,420px)}.flow{gap:96px}}
+footer{padding:72px 0;color:#888;text-align:center;border-top:1px solid var(--edge);font-size:12px}
+</style>
+</head>
+<body>
+<header><div class="wrap nav"><div class="brand">H<span style="opacity:.7">EROTO</span></div><div style="font-size:12px;color:#888;letter-spacing:.12em">PORTFOLIO</div></div></header>
+<section class="hero wrap"><h1>HEROTO</h1><p>Design-first skeleton — add your content later.</p></section>
+
+<div class="wrap">
+  <div class="section" id="background"><h2>夢への背景</h2><div class="rule"></div></div>
+  <main class="flow">
+    <!-- 2022 -->
+    <article class="entry">
+      <figure class="media reveal from-right"><img class="ph" src="assets/2022.jpg" alt="2022"></figure>
+      <div class="text reveal from-right"><p class="eyebrow">2022</p><h3 class="title">ここにタイトル</h3><p class="body">ここに本文。</p></div>
+    </article>
+    <!-- 2023 -->
+    <article class="entry alt">
+      <div class="text reveal from-left"><p class="eyebrow">2023</p><h3 class="title">ここにタイトル</h3><p class="body">ここに本文。</p></div>
+      <figure class="media reveal from-left"><img class="ph" src="assets/2023.jpg" alt="2023"></figure>
+    </article>
+    <!-- 2024 -->
+    <article class="entry">
+      <figure class="media reveal from-right"><img class="ph" src="assets/2024.jpg" alt="2024"></figure>
+      <div class="text reveal from-right"><p class="eyebrow">2024</p><h3 class="title">ここにタイトル</h3><p class="body">ここに本文。</p></div>
+    </article>
+    <!-- 2025 -->
+    <article class="entry alt">
+      <div class="text reveal from-left"><p class="eyebrow">2025</p><h3 class="title">ここにタイトル</h3><p class="body">ここに本文。</p></div>
+      <figure class="media reveal from-left"><img class="ph" src="assets/2025.jpg" alt="2025"></figure>
+    </article>
+
+    <div class="section" id="strength"><h2>強み</h2><div class="rule"></div></div>
+
+    <!-- 強み① -->
+    <article class="entry">
+      <figure class="media reveal from-right"><img class="ph" src="assets/strength01.jpg" alt="Strength 01"></figure>
+      <div class="text reveal from-right"><p class="eyebrow">強み 01</p><h3 class="title">ここにタイトル</h3><p class="body">ここに本文。</p></div>
+    </article>
+    <!-- 強み② -->
+    <article class="entry alt">
+      <div class="text reveal from-left"><p class="eyebrow">強み 02</p><h3 class="title">ここにタイトル</h3><p class="body">ここに本文。</p></div>
+      <figure class="media reveal from-left"><img class="ph" src="assets/strength02.jpg" alt="Strength 02"></figure>
+    </article>
+    <!-- 強み③ -->
+    <article class="entry">
+      <figure class="media reveal from-right"><img class="ph" src="assets/strength03.jpg" alt="Strength 03"></figure>
+      <div class="text reveal from-right"><p class="eyebrow">強み 03</p><h3 class="title">ここにタイトル</h3><p class="body">ここに本文。</p></div>
+    </article>
+
+    <div class="section" id="dream"><h2>My Dream</h2><div class="rule"></div></div>
+
+    <!-- My Dream -->
+    <article class="entry alt">
+      <div class="text reveal from-left"><p class="eyebrow">VISION</p><h3 class="title">ここにタイトル</h3><p class="body">ここに本文。</p></div>
+      <figure class="media reveal from-left"><img class="ph" src="assets/dream.jpg" alt="My Dream"></figure>
+    </article>
+  </main>
+</div>
+
+<footer>© HEROTO — contact: （SNSや連絡先）</footer>
+<script>
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('in'),180);io.unobserve(e.target)}})},{threshold:.42,rootMargin:"0px 0px -10% 0px"});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
