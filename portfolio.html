@@ -4,101 +4,391 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>HEROTO | Portfolio</title>
+<meta name="description" content="IT×エンタメ／PM・開発・マーケを横断するHEROTOのポートフォリオ">
 <style>
-:root{--bg:#fff;--ink:#121212;--muted:#6b6b6b;--edge:#eee;
---maxw:1320px;--padX:clamp(16px,4vw,56px);--gap:40px;--entry-gap:120px;
---radius:18px;--shadow:0 18px 60px rgba(0,0,0,.08);--pop:cubic-bezier(.2,.85,.2,1);--slide:96px}
-*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);
-font-family:ui-sans-serif,system-ui,"Noto Sans JP","Segoe UI",Roboto,Helvetica,Arial,sans-serif}
-.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--padX)}
-header{position:sticky;top:0;z-index:20;border-bottom:1px solid var(--edge);
-background:linear-gradient(to bottom,rgba(255,255,255,.97),rgba(255,255,255,.72) 70%,rgba(255,255,255,.28));
-backdrop-filter:saturate(120%) blur(6px)}.nav{height:72px;display:flex;align-items:center;justify-content:space-between}
-.brand{letter-spacing:.28em;font-weight:800}
-.hero{min-height:28vh;display:grid;place-items:center;text-align:center}
-.hero h1{font-size:clamp(28px,6.5vw,56px);letter-spacing:.22em;margin:.2em 0 .25em;text-transform:uppercase}
-.hero p{color:var(--muted);letter-spacing:.06em;margin:0}
-.section{padding:18px 0 6px;margin-top:10px}.section h2{font-size:clamp(18px,2.2vw,24px);letter-spacing:.18em;text-transform:uppercase;margin:0 0 8px}
-.rule{height:1px;background:linear-gradient(90deg,transparent,#e9e9e9,transparent);margin:16px 0 24px}
-.flow{display:flex;flex-direction:column;gap:var(--entry-gap);padding:8px 0 120px}
-.entry{display:grid;align-items:center;gap:var(--gap);grid-template-columns:minmax(42%,58%) 1fr}
-.entry.alt{grid-template-columns:1fr minmax(42%,58%)}
-.media{position:relative;border-radius:var(--radius);overflow:hidden;background:#f5f5f5;
-min-height:clamp(320px,54vh,520px);box-shadow:var(--shadow)}
-.ph{width:100%;height:100%;object-fit:cover;transform:scale(1.005);
-filter:grayscale(10%) saturate(.98) contrast(1.05) brightness(.98);
-transition:transform .5s var(--pop),filter .5s var(--pop)}
-.media:hover .ph{transform:scale(1.02);filter:grayscale(4%) contrast(1.08)}
-.text{display:flex;flex-direction:column;gap:12px;justify-content:center}
-.eyebrow{color:var(--muted);font-size:12px;letter-spacing:.14em;text-transform:uppercase}
-.title{font-weight:900;letter-spacing:.01em;font-size:clamp(18px,2.2vw,28px);margin:0}
-.body{color:#222;line-height:1.95;margin-top:4px;font-size:clamp(14px,1.12vw,16px)}
-.reveal{opacity:0;transition:opacity .9s var(--pop),transform 1.05s var(--pop)}
-.from-right{transform:translate(var(--slide),26px)}.from-left{transform:translate(calc(var(--slide)*-1),26px)}.reveal.in{opacity:1;transform:none}
-@media(max-width:980px){.entry,.entry.alt{grid-template-columns:1fr}.media{min-height:clamp(240px,48vh,420px)}.flow{gap:96px}}
-footer{padding:72px 0;color:#888;text-align:center;border-top:1px solid var(--edge);font-size:12px}
+  :root{
+    --bg:#ffffff; --ink:#121212; --muted:#6b6b6b; --edge:#eeeeee;
+    --maxw:1320px; --padX:clamp(16px,4vw,56px);
+    --gap:40px;           /* 画像-テキスト間 */
+    --entry-gap:120px;    /* 各項目の縦間隔 */
+    --radius:18px; --shadow:0 18px 60px rgba(0,0,0,.08);
+    --pop:cubic-bezier(.2,.85,.2,1);
+    --slide:96px;         /* スライド距離 */
+    --accent: #111;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:ui-sans-serif,system-ui,"Noto Sans JP","Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  img{max-width:100%;display:block}
+  a{color:inherit}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--padX)}
+  header{position:sticky;top:0;z-index:20;border-bottom:1px solid var(--edge);
+    background:linear-gradient(to bottom,rgba(255,255,255,.97),rgba(255,255,255,.72) 70%,rgba(255,255,255,.28));
+    backdrop-filter:saturate(120%) blur(6px);} 
+  .nav{height:72px;display:flex;align-items:center;justify-content:space-between}
+  .brand{letter-spacing:.28em;font-weight:800}
+  .nav a{font-size:12px;letter-spacing:.12em;color:#888;text-decoration:none;margin-left:18px}
+
+  .hero{min-height:28vh;display:grid;place-items:center;text-align:center}
+  .hero h1{font-size:clamp(28px,6.5vw,56px);letter-spacing:.22em;margin:.2em 0 .25em;text-transform:uppercase}
+  .hero p{color:var(--muted);letter-spacing:.06em;margin:0}
+  .hero .tagline{margin-top:10px;font-weight:700;letter-spacing:.02em}
+
+  /* セクション見出し */
+  .section{padding:18px 0 6px;margin-top:10px}
+  .section h2{
+    font-size:clamp(18px,2.2vw,24px);letter-spacing:.18em;text-transform:uppercase;
+    color:#222;margin:0 0 8px;
+  }
+  .rule{height:1px;background:linear-gradient(90deg,transparent,#e9e9e9,transparent);margin:16px 0 24px}
+
+  /* タイムライン（連続） */
+  .flow{display:flex;flex-direction:column;gap:var(--entry-gap);padding:8px 0 120px}
+
+  /* 枠なし・左右交互 */
+  .entry{display:grid;align-items:center;gap:var(--gap);grid-template-columns:minmax(42%,58%) 1fr}
+  .entry.alt{grid-template-columns:1fr minmax(42%,58%)}
+
+  .media{position:relative;border-radius:var(--radius);overflow:hidden;background:#f5f5f5;
+    min-height:clamp(320px,54vh,520px);box-shadow:var(--shadow)}
+  .ph{width:100%;height:100%;object-fit:cover;transform:scale(1.005);
+    filter:grayscale(10%) saturate(.98) contrast(1.05) brightness(.98);
+    transition:transform .5s var(--pop),filter .5s var(--pop)}
+  .media:hover .ph{transform:scale(1.02);filter:grayscale(4%) contrast(1.08)}
+
+  .text{display:flex;flex-direction:column;gap:12px;justify-content:center}
+  .eyebrow{color:var(--muted);font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+  .title{font-weight:900;letter-spacing:.01em;font-size:clamp(18px,2.2vw,28px);margin:0}
+  .body{color:#222;line-height:1.95;margin-top:4px;font-size:clamp(14px,1.12vw,16px)}
+
+  /* スクロール出現（遅め） */
+  .reveal{opacity:0;transition:opacity .9s var(--pop),transform 1.05s var(--pop)}
+  .from-right{transform:translate(var(--slide),26px)}   /* 右から */
+  .from-left{ transform:translate(calc(var(--slide)*-1),26px)} /* 左から */
+  .from-bottom{transform:translateY(30px)}              /* 下から */
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:980px){
+    .entry,.entry.alt{grid-template-columns:1fr}
+    .media{min-height:clamp(240px,48vh,420px)}
+    .flow{gap:96px}
+  }
+
+  footer{padding:72px 0;color:#888;text-align:center;border-top:1px solid var(--edge);font-size:12px}
+
+  /* ===== 実績（Works） ===== */
+  .works{display:grid;gap:24px;grid-template-columns:repeat(12,1fr)}
+  .work-card{
+    grid-column: span 6; /* 2列 */
+    border-radius:var(--radius);overflow:hidden;background:#f7f7f7;box-shadow:var(--shadow);
+    display:flex;flex-direction:column;min-height:380px
+  }
+  .work-media{aspect-ratio:16/9;background:#eaeaea;overflow:hidden}
+  .work-media img{width:100%;height:100%;object-fit:cover;transform:scale(1.01);transition:transform .6s var(--pop)}
+  .work-card:hover .work-media img{transform:scale(1.04)}
+  .work-body{padding:20px 20px 18px;display:flex;flex-direction:column;gap:10px}
+  .work-top{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .tag{font-size:11px;letter-spacing:.06em;border:1px solid #e2e2e2;border-radius:999px;padding:6px 10px;color:#444;background:#fff}
+  .work-title{margin:0;font-weight:800;font-size:clamp(16px,2vw,20px);letter-spacing:.01em}
+  .work-desc{margin:2px 0 0;color:#222;opacity:.95;line-height:1.85}
+  .kpis{display:flex;gap:10px;flex-wrap:wrap;margin-top:2px}
+  .kpi{font-size:12px;color:#333;background:#fff;border:1px dashed #ddd;border-radius:10px;padding:6px 10px}
+  .actions{margin-top:8px;display:flex;gap:10px;flex-wrap:wrap}
+  .btn{font-size:12px;letter-spacing:.06em;border:1px solid #d9d9d9;border-radius:10px;padding:8px 12px;background:#fff;text-decoration:none;color:#111}
+  .btn:hover{transform:translateY(-1px)}
+  @media (max-width:1100px){ .work-card{grid-column: span 12} }
+
+  /* ===== スキル（Skills） ===== */
+  .skills{display:grid;grid-template-columns: 7fr 5fr;gap:28px}
+  @media (max-width:980px){ .skills{grid-template-columns:1fr} }
+  .skill-block{background:linear-gradient(180deg,rgba(0,0,0,.03),rgba(0,0,0,.015));border-radius:16px;padding:20px;box-shadow:0 1px 0 rgba(0,0,0,.05)}
+  .skill-title{margin:0 0 8px;font-weight:900;font-size:clamp(16px,1.9vw,20px)}
+  .chips{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{font-size:12px;border:1px solid #e0e0e0;border-radius:999px;padding:8px 12px;background:#fff}
+  .matrix{display:grid;grid-template-columns: 1fr 3fr;gap:10px;align-items:center;margin-top:10px}
+  .bar{height:10px;background:#eee;border-radius:999px;overflow:hidden}
+  .fill{height:100%;background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.1))}
+  .note{color:#666;font-size:12px;margin-top:10px}
+
+  /* ===== 失敗と改善 ===== */
+  .fail{display:grid;gap:18px;grid-template-columns:repeat(12,1fr)}
+  .fail-card{grid-column:span 12;background:#fafafa;border:1px dashed #e8e8e8;border-radius:16px;padding:18px}
+  .fail-card h4{margin:0 0 6px;font-size:16px}
+  .fail-card p{margin:0;color:#333;opacity:.95;line-height:1.9}
+
+  /* ===== コンタクト ===== */
+  .contact{display:flex;gap:10px;flex-wrap:wrap}
+  .contact a{font-size:12px;letter-spacing:.06em;border:1px solid #d9d9d9;border-radius:10px;padding:8px 12px;background:#fff;text-decoration:none;color:#111}
 </style>
 </head>
 <body>
-<header><div class="wrap nav"><div class="brand">H<span style="opacity:.7">EROTO</span></div><div style="font-size:12px;color:#888;letter-spacing:.12em">PORTFOLIO</div></div></header>
-<section class="hero wrap"><h1>HEROTO</h1><p>Design-first skeleton — add your content later.</p></section>
+  <!-- HEADER -->
+  <header>
+    <div class="wrap nav">
+      <div class="brand">H<span style="opacity:.7">EROTO</span></div>
+      <nav>
+        <a href="#background">Background</a>
+        <a href="#strength">Strengths</a>
+        <a href="#works">Works</a>
+        <a href="#skills">Skills</a>
+      </nav>
+    </div>
+  </header>
 
-<div class="wrap">
-  <div class="section" id="background"><h2>夢への背景</h2><div class="rule"></div></div>
-  <main class="flow">
-    <!-- 2022 -->
-    <article class="entry">
-      <figure class="media reveal from-right"><img class="ph" src="assets/2022.jpg" alt="2022"></figure>
-      <div class="text reveal from-right"><p class="eyebrow">2022</p><h3 class="title">ここにタイトル</h3><p class="body">ここに本文。</p></div>
-    </article>
-    <!-- 2023 -->
-    <article class="entry alt">
-      <div class="text reveal from-left"><p class="eyebrow">2023</p><h3 class="title">ここにタイトル</h3><p class="body">ここに本文。</p></div>
-      <figure class="media reveal from-left"><img class="ph" src="assets/2023.jpg" alt="2023"></figure>
-    </article>
-    <!-- 2024 -->
-    <article class="entry">
-      <figure class="media reveal from-right"><img class="ph" src="assets/2024.jpg" alt="2024"></figure>
-      <div class="text reveal from-right"><p class="eyebrow">2024</p><h3 class="title">ここにタイトル</h3><p class="body">ここに本文。</p></div>
-    </article>
-    <!-- 2025 -->
-    <article class="entry alt">
-      <div class="text reveal from-left"><p class="eyebrow">2025</p><h3 class="title">ここにタイトル</h3><p class="body">ここに本文。</p></div>
-      <figure class="media reveal from-left"><img class="ph" src="assets/2025.jpg" alt="2025"></figure>
-    </article>
+  <!-- HERO -->
+  <section class="hero wrap">
+    <h1>HEROTO</h1>
+    <p>IT × Entertainment / PM・開発・マーケを横断する人</p>
+    <div class="tagline">情熱を“コード化”するロジカルシンカー</div>
+  </section>
 
-    <div class="section" id="strength"><h2>強み</h2><div class="rule"></div></div>
+  <div class="wrap">
+    <!-- 夢への背景 -->
+    <div class="section" id="background">
+      <h2>夢への背景</h2>
+      <div class="rule"></div>
+    </div>
 
-    <!-- 強み① -->
-    <article class="entry">
-      <figure class="media reveal from-right"><img class="ph" src="assets/strength01.jpg" alt="Strength 01"></figure>
-      <div class="text reveal from-right"><p class="eyebrow">強み 01</p><h3 class="title">ここにタイトル</h3><p class="body">ここに本文。</p></div>
-    </article>
-    <!-- 強み② -->
-    <article class="entry alt">
-      <div class="text reveal from-left"><p class="eyebrow">強み 02</p><h3 class="title">ここにタイトル</h3><p class="body">ここに本文。</p></div>
-      <figure class="media reveal from-left"><img class="ph" src="assets/strength02.jpg" alt="Strength 02"></figure>
-    </article>
-    <!-- 強み③ -->
-    <article class="entry">
-      <figure class="media reveal from-right"><img class="ph" src="assets/strength03.jpg" alt="Strength 03"></figure>
-      <div class="text reveal from-right"><p class="eyebrow">強み 03</p><h3 class="title">ここにタイトル</h3><p class="body">ここに本文。</p></div>
-    </article>
+    <main class="flow">
+      <!-- 2020（右から） -->
+      <article class="entry">
+        <figure class="media reveal from-right">
+          <img class="ph" src="assets/2022.jpg" alt="2022">
+        </figure>
+        <div class="text reveal from-right">
+          <p class="eyebrow">2020</p>
+          <h3 class="title">オンラインライブを観た衝撃のまま上京</h3>
+          <p class="body">当時、好きだったアイドルグループ欅坂46のオンラインライブでグループの解散に直面。<br>解散直前の「ガラスを割れ！」のパフォーマンスを観て衝動的に音楽業界を目指す。<br>解散を余儀なくされた彼女たちの「お前はもっと自由でいい」というメッセージは今でもずっと自身の活力になっている。</p>
+        </div>
+      </article>
 
-    <div class="section" id="dream"><h2>My Dream</h2><div class="rule"></div></div>
+      <!-- 2022（左から） -->
+      <article class="entry alt">
+        <div class="text reveal from-left">
+          <p class="eyebrow">2022</p>
+          <h3 class="title">夢が輪郭を帯びた1年</h3>
+          <p class="body">好きなアイドルグループが紅白歌合戦を逃し、SNSの動向に敏感になった。外野の野次にうんざりしつつも、ファンが一体となって共通のハッシュタグをTwitterでトレンド１位にする瞬間を目の当たりにし、自身もそんな温かい瞬間を築きたいと考えた。また、その翌年、ファンによるハッシュタグ戦略が功をなし、アジアアーティストアワードで退位賞を受賞するなど、そのファンダムの重要さに気づいた。強固なファンダム設計こそがアーティストの将来を左右する点に興味を持った。それまでなんとなく音楽業界に入れればと思っていた夢が、熱狂的な場を作り上げたいという夢へと変化した。</p>
+        </div>
+        <figure class="media reveal from-left">
+          <img class="ph" src="assets/2023.jpg" alt="2023">
+        </figure>
+      </article>
 
-    <!-- My Dream -->
-    <article class="entry alt">
-      <div class="text reveal from-left"><p class="eyebrow">VISION</p><h3 class="title">ここにタイトル</h3><p class="body">ここに本文。</p></div>
-      <figure class="media reveal from-left"><img class="ph" src="assets/dream.jpg" alt="My Dream"></figure>
-    </article>
-  </main>
-</div>
+      <!-- 2024（右から） -->
+      <article class="entry">
+        <figure class="media reveal from-right">
+          <img class="ph" src="assets/2024.jpg" alt="2024">
+        </figure>
+        <div class="text reveal from-right">
+          <p class="eyebrow">2024</p>
+          <h3 class="title">就職活動に挫折した１年</h3>
+          <p class="body">音楽業界で内定を取れず、業界への知見の浅さを痛感。業界への知見を深めるためにも、卒業論文では、「国内Da＆Voグループの世界進出の要因」を題材に業界への知見を深めた。</p>
+        </div>
+      </article>
 
-<footer>© HEROTO — contact: （SNSや連絡先）</footer>
-<script>
-const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('in'),180);io.unobserve(e.target)}})},{threshold:.42,rootMargin:"0px 0px -10% 0px"});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-</script>
+      <!-- 2025（左から） -->
+      <article class="entry alt">
+        <div class="text reveal from-left">
+          <p class="eyebrow">2025</p>
+          <h3 class="title">革命道中</h3>
+          <p class="body">EBに入学。入学後は、社会人と両立していたが、自身が本当にやりたいことを見つめなおし、会社を退職し、EBに専念。<br>現在は、2/28に開催されるフェスに向けて、奮闘中。</p>
+        </div>
+        <figure class="media reveal from-left">
+          <img class="ph" src="assets/2025.jpg" alt="2025">
+        </figure>
+      </article>
+
+      <!-- 強み -->
+      <div class="section" id="strength">
+        <h2>強み</h2>
+        <div class="rule"></div>
+      </div>
+
+      <!-- 強み①（右から） -->
+      <article class="entry">
+        <figure class="media reveal from-right">
+          <img class="ph" src="assets/strength01.jpg" alt="PM Strength">
+        </figure>
+        <div class="text reveal from-right">
+          <p class="eyebrow">Strength 01</p>
+          <h3 class="title">リーダーシップ</h3>
+          <p class="body">小規模から大規模なチームまでリーダーとして経験を重ねてきた。
+          お互いを知る機会を増やし、話し合いが活発な環境を築くことで、
+          期間の長さや熱量の差に合わせた柔軟な対応力を培った。
+          多様なメンバーを同じ目標へ導く力は、
+          異なる哲学や世界観を持つアーティストやクリエイターをつなぐA&Rとしても活かせる。
+
+
+          （小学校：応援団長、中学：サッカー地区選抜キャプテン、高校：県ベスト８の高校で副部長、大学：７０名を超えるバイト先で時間帯責任者、４人の小規模チームで実習PM））
+          </p>
+        </div>
+      </article>
+
+      <!-- 強み②（左から） -->
+      <article class="entry alt">
+        <div class="text reveal from-left">
+          <p class="eyebrow">Strength 02</p>
+          <h3 class="title">AIへの知見</h3>
+          <p class="body">大学でプログラミングとデジタルマーケティングを学び、
+            生成AIを用いたアプリを開発。
+            前職ではSEとして、東芝テックとPOSシステムを共同開発した。
+
+            テクノロジーの仕組みを理解し、ユーザー体験を設計できるこの視点は、
+            アーティストの魅力を“デジタルで届ける”A&Rにも活きる
+          </p>
+        </div>
+        <figure class="media reveal from-left">
+          <img class="ph" src="assets/strength02.jpg" alt="Data Strength">
+        </figure>
+      </article>
+
+      <!-- 強み③（右から） -->
+      <article class="entry">
+        <figure class="media reveal from-right">
+          <img class="ph" src="assets/strength03.jpg" alt="现场 Strength">
+        </figure>
+        <div class="text reveal from-right">
+          <p class="eyebrow">Strength 03</p>
+          <h3 class="title">現場推進：体験の“動線”にこだわる</h3>
+          <p class="body">幼少期からサッカー、ピアノ、躰道など、多くの習い事を経験してきたことで、様々なことや人を通じて、多くの価値観に触れてきた。
+          以前、「芸能とは差があることから発していてその不条理に対して訴えていくことから成り立っている」とうかがったことがある。
+          働くうえでは常にこのような差や不条理に敏感である必要がある現代では、デジタルを通して、情報が発信しやすく、拡散もしやすいため、慎重に物事に取り組んでいくことが重要だ。私の想像力は、こうした視点を持ちながら、新しい価値を創造する際に役立つと考えている。
+          </p>
+        </div>
+      </article>
+
+      <!-- ===== 実績（Works） ===== -->
+      <div class="section" id="works">
+        <h2>実績 / Works</h2>
+        <div class="rule"></div>
+      </div>
+
+      <section class="works">
+        <!-- Work 1 -->
+        <article class="work-card reveal from-bottom" aria-label="SPAT">
+          <div class="work-media">
+            <img src="assets/work01.jpg" >
+          </div>
+          <div class="work-body">
+            <div class="work-top">
+              <span class="tag">Web App</span>
+              <span class="tag">ASP.NET</span>
+              <span class="tag">SQL</span>
+              <span class="tag">設計→実装一部</span>
+            </div>
+            <h3 class="work-title">SPAT</h3>
+            <p class="work-desc">TEC製のレジのサービスの一部。レジが故障した際に現場とエンジニアをつなぐ連絡ツール</p>
+            <div class="kpis">
+              <span class="kpi">設計〜一部実装担当</span>
+            </div>
+            <div class="actions">
+            </div>
+          </div>
+        </article>
+
+        <!-- Work 2 -->
+        <article class="work-card reveal from-bottom" aria-label="読書メイト">
+          <div class="work-media">
+            <img src="assets/work02.jpg" alt="読書メイト">
+          </div>
+          <div class="work-body">
+            <div class="work-top">
+              <span class="tag">生成AI</span>
+              <span class="tag">情報設計</span>
+              <span class="tag">読書</span>
+              <span class="tag">社会課題</span>
+            </div>
+            <h3 class="work-title">読書メイト</h3>
+            <p class="work-desc">若者の読書離れに着目し、蔵書推薦サービスを作成した。若者が読書をするきっかけとして、「友人に勧められて」というデータが大きいことに着目し、サービスにchatGPTを搭載。本に詳しい友達として人格を設計し、LINEのようなUI、UX設計でより、友達と会話しているような感覚でサービスを利用してもらえるよう努めた。</p>
+            <div class="kpis">
+              <span class="kpi">導線図 / ワイヤー作成</span>
+            </div>
+            <div class="actions">
+              <a class="btn" href="#" target="_blank" rel="noreferrer">LP</a>
+              <a class="btn" href="#" target="_blank" rel="noreferrer">ワイヤー</a>
+              <a class="btn" href="#" target="_blank" rel="noreferrer">改善レポート</a>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ===== スキル（Skills） ===== -->
+      <div class="section" id="skills">
+        <h2>スキル / Skills</h2>
+        <div class="rule"></div>
+      </div>
+
+      <section class="skills">
+        <!-- 左：カテゴリ別チップ -->
+        <div class="skill-block reveal from-bottom">
+          <h3 class="skill-title">技術スタック</h3>
+          <div class="chips" aria-label="languages">
+            <span class="chip">Java</span>
+            <span class="chip">C# / .NET</span>
+            <span class="chip">ASP.NET (Razor)</span>
+            <span class="chip">Entity Framework Core</span>
+            <span class="chip">SQL (T-SQL)</span>
+            <span class="chip">HTML/CSS</span>
+            <span class="chip">JavaScript</span>
+          </div>
+          <h3 class="skill-title" style="margin-top:16px">ツール / インフラ</h3>
+          <div class="chips">
+            <span class="chip">Git / GitHub</span>
+            <span class="chip">SSMS</span>
+            <span class="chip">Figma</span>
+            <span class="chip">GA4</span>
+            <span class="chip">Notion</span>
+          </div>
+          <h3 class="skill-title" style="margin-top:16px">ビジネス / 企画</h3>
+          <div class="chips">
+            <span class="chip">PM / 要件整理</span>
+            <span class="chip">KPI設計</span>
+            <span class="chip">ファンエンゲージメント</span>
+            <span class="chip">情報設計（IA）</span>
+          </div>
+        </div>
+
+        <!-- 右：スキルマトリクス（バー） -->
+        <div class="skill-block reveal from-bottom">
+          <h3 class="skill-title">スキルマトリクス</h3>
+          <div class="matrix" role="list">
+            <div>ASP.NET</div><div class="bar" aria-label="ASP.NET 80%"><div class="fill" style="width:80%"></div></div>
+            <div>SQL / DB設計</div><div class="bar" aria-label="SQL 75%"><div class="fill" style="width:75%"></div></div>
+            <div>Java / 基盤</div><div class="bar" aria-label="Java 65%"><div class="fill" style="width:65%"></div></div>
+            <div>情報設計 / IA</div><div class="bar" aria-label="IA 85%"><div class="fill" style="width:85%"></div></div>
+            <div>KPI設計 / 分析</div><div class="bar" aria-label="Analytics 70%"><div class="fill" style="width:70%"></div></div>
+            <div>PM / 進行</div><div class="bar" aria-label="PM 80%"><div class="fill" style="width:80%"></div></div>
+          </div>
+          <p class="note">※ 自己評価の目安値。案件実績に紐づけて更新してください。</p>
+        </div>
+      </section>
+
+
+
+
+      ilto:your.name@example.com">Mail</a>
+      </section>
+
+    </main>
+  </div>
+
+  <footer>© HEROTO — IT × Entertainment — Portfolio</footer>
+
+  <script>
+    // 遅めに出現（早すぎ防止）
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          setTimeout(()=>e.target.classList.add('in'), 180);
+          io.unobserve(e.target);
+        }
+      });
+    },{
+      threshold: 0.42,           // 42%入ってから
+      rootMargin: "0px 0px -10% 0px"
+    });
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  </script>
 </body>
 </html>
