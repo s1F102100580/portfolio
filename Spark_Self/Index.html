@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Spark_Self</title>
+  <meta name="description" content="ライブ告知サイト" />
+
+  <!-- JSが有効なら 'js' クラス付与（revealが消えっぱなしになるのを防ぐ） -->
+  <script>document.documentElement.classList.add('js');</script>
+
+  <style>
+    :root{
+      --text:#111;
+      --muted:#444;
+      --max: 920px;
+      --radius: 18px;
+
+      /* 余白強め */
+      --pagePadY: 72px;
+      --sectionGap: 34px;
+      --framePad: 34px;
+    }
+
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+        "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", Meiryo, sans-serif;
+      line-height:1.9;
+      letter-spacing:.01em;
+      background:#fff;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+
+    .wrap{
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+      text-align:center;
+    }
+
+    /* ===== Sticky Nav ===== */
+    header{
+      position: sticky;
+      top:0;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 2px solid #111;
+      z-index: 10;
+    }
+    .nav{
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+      padding: 14px 0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .nav a{
+      color: #111;
+      font-weight: 950;
+      font-size: 13px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 6px 4px;
+      opacity: .65;
+    }
+    .nav a:hover{ opacity: 1; text-decoration:none; }
+    .nav a.active{
+      opacity: 1;
+      text-decoration: underline;
+      text-underline-offset: 6px;
+    }
+
+    main{ padding: var(--pagePadY) 0 calc(var(--pagePadY) + 10px); }
+
+    /* ===== HERO（最初に出てくるタイトル） ===== */
+    .hero{
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto var(--sectionGap);
+      border: 2px solid #111;
+      border-radius: var(--radius);
+      background: #fff;
+      padding: 54px 34px;
+      text-align:center;
+    }
+    .hero-kicker{
+      margin:0 0 12px;
+      font-weight: 900;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,.65);
+      font-size: 12px;
+    }
+    .hero-title{
+      margin:0 0 14px;
+      font-weight: 950;
+      letter-spacing: -.01em;
+      font-size: clamp(34px, 5vw, 64px);
+      line-height: 1.05;
+    }
+    .hero-sub{
+      margin:0 auto 18px;
+      max-width: 60ch;
+      color: rgba(0,0,0,.7);
+      font-size: 14.5px;
+      line-height: 1.9;
+      white-space: pre-line;
+    }
+    .hero-meta{
+      margin-top: 18px;
+      display:flex;
+      justify-content:center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .pill{
+      border: 2px solid #111;
+      background: rgba(255,255,255,.75);
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 900;
+      letter-spacing:.04em;
+    }
+    .hero-actions{
+      margin-top: 22px;
+      display:flex;
+      justify-content:center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn{
+      border: 2px solid #111;
+      background: rgba(255,255,255,.75);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-weight: 950;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-size: 13px;
+      opacity: .9;
+      display:inline-block;
+    }
+    .btn:hover{ opacity: 1; text-decoration:none; }
+    .btn--fill{ background:#111; color:#fff; }
+
+    /* ===== Frame (大げさに色変える) ===== */
+    .frame{
+      border: 2px solid #111;
+      border-radius: var(--radius);
+      padding: var(--framePad);
+      text-align:center;
+      margin-bottom: var(--sectionGap);
+    }
+   
+    .kicker{
+      margin: 0 0 10px;
+      color: rgba(0,0,0,.7);
+      font-weight: 900;
+      font-size: 12px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+    h2{
+      margin:0 0 14px;
+      font-size: 18px;
+      font-weight: 950;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+    }
+    .desc{
+      margin: 0 auto;
+      max-width: 62ch;
+      color: rgba(0,0,0,.72);
+      font-size: 14.5px;
+      white-space: pre-line;
+    }
+
+    /* ===== Artists: 縦に4つ + 交互レイアウト（○ーー / ーー○） ===== */
+    .stack{
+      margin-top: 22px;
+      display:flex;
+      flex-direction: column;
+      gap: 22px;
+      text-align:left;
+    }
+
+    .artist{
+      border: 2px solid #111;
+      border-radius: 16px;
+      overflow:hidden;
+      background: rgba(255,255,255,.55);
+      display:grid;
+      grid-template-columns: 320px 1fr;
+      min-height: 210px;
+    }
+
+    .photo{
+      position: relative;
+      background: #fff;
+      border-right: 2px solid #111;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    /* 画像を入れる場合（hasimgで切り替え） */
+    .photo.hasimg{
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* 画像がない時のプレースホルダー */
+    .photo::before{
+      content:"";
+      position:absolute;
+      inset: 14px;
+      border: 2px dashed rgba(0,0,0,.35);
+      border-radius: 12px;
+    }
+    .photo::after{
+      content:"PHOTO";
+      position:relative;
+      font-weight: 950;
+      letter-spacing: .2em;
+      color: rgba(0,0,0,.35);
+    }
+    .photo.hasimg::before,
+    .photo.hasimg::after{
+      content:"";
+      display:none;
+    }
+
+    .artist-body{
+      padding: 18px 18px 20px;
+    }
+    .artist-title{
+      margin:0;
+      font-weight: 950;
+      letter-spacing: .06em;
+      font-size: 18px;
+      line-height: 1.25;
+    }
+    .artist-sub{
+      margin: 8px 0 0;
+      color: rgba(0,0,0,.7);
+      font-size: 14px;
+      line-height: 1.8;
+      white-space: pre-line;
+    }
+    .meta{
+      margin-top: 14px;
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* 偶数行は反転（ーー○） */
+    .artist.alt{
+      grid-template-columns: 1fr 320px;
+    }
+    .artist.alt .photo{
+      order: 2;
+      border-right: none;
+      border-left: 2px solid #111;
+    }
+    .artist.alt .artist-body{
+      order: 1;
+    }
+
+    /* ===== reveal（消えっぱなし防止の安全版） ===== */
+    /* JSが死んでも表示される（デフォで表示） */
+    .reveal{
+      opacity: 1;
+      transform: none;
+    }
+    /* JSが有効なときだけ最初は隠す */
+    .js .reveal{
+      opacity: 0;
+      transition: opacity .7s ease, transform .7s ease;
+      will-change: opacity, transform;
+    }
+    .js .reveal.from-left{ transform: translateX(-40px); }
+    .js .reveal.from-right{ transform: translateX(40px); }
+    .js .reveal.in{
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* ===== Ticket accordion ===== */
+    details{
+      max-width: 760px;
+      margin: 16px auto 0;
+      border: 2px solid #111;
+      border-radius: 14px;
+      background: rgba(255,255,255,.55);
+      text-align:left;
+      overflow:hidden;
+    }
+    details + details{ margin-top: 12px; }
+    summary{
+      cursor:pointer;
+      padding: 16px 14px;
+      list-style:none;
+      font-weight: 950;
+      letter-spacing: .04em;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      border-bottom: 2px solid #111;
+      background: rgba(255,255,255,.65);
+    }
+    summary::-webkit-details-marker{ display:none; }
+    .sum-muted{
+      color: rgba(0,0,0,.65);
+      font-weight: 900;
+      font-size: 13px;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+    details[open] summary{ border-bottom: 2px solid #111; }
+    .detail-inner{
+      padding: 14px;
+      color: rgba(0,0,0,.72);
+      font-size: 14px;
+      line-height: 1.85;
+    }
+    /* ===== 色を消して、影と濃淡で区切る（上書き） ===== */
+
+/* 全体は白固定 */
+body{ background:#fff; }
+
+/* frameの背景色を無効化（既存の frame--xxx を全て白に） */
+.frame--artists,
+.frame--about,
+.frame--venue,
+.frame--tickets,
+.frame--sns{
+  background: #fff !important;
+}
+
+/* 枠：線は薄く、影で“段差”を作る */
+.frame{
+  border: 1px solid rgba(0,0,0,.10) !important;
+  background: #fff !important;
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.06),
+    0 2px 8px rgba(0,0,0,.04);
+}
+
+/* ヒーローも同じテイストに */
+.hero{
+  border: 1px solid rgba(0,0,0,.10) !important;
+  box-shadow:
+    0 14px 44px rgba(0,0,0,.08),
+    0 2px 10px rgba(0,0,0,.05);
+}
+
+/* アーティストカード：少しだけ背景差 + 影 */
+.artist{
+  border: 1px solid rgba(0,0,0,.12) !important;
+  background: rgba(255,255,255,.92) !important;
+  box-shadow:
+    0 12px 28px rgba(0,0,0,.07),
+    0 2px 8px rgba(0,0,0,.05);
+}
+
+/* 写真枠の線も薄く */
+.photo{
+  border-right: 1px solid rgba(0,0,0,.10) !important;
+}
+
+/* alt側（右写真）の線 */
+.artist.alt .photo{
+  border-left: 1px solid rgba(0,0,0,.10) !important;
+}
+
+/* pill/buttonも少しだけ柔らかく */
+.pill, .btn, .sns a{
+  border: 1px solid rgba(0,0,0,.18) !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,.06);
+}
+
+/* ナビの線も薄く */
+header{
+  border-bottom: 1px solid rgba(0,0,0,.10) !important;
+}
+
+/* detailsも同テイスト */
+details{
+  border: 1px solid rgba(0,0,0,.12) !important;
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.06),
+    0 2px 8px rgba(0,0,0,.04);
+}
+summary{
+  border-bottom: 1px solid rgba(0,0,0,.10) !important;
+}
+
+
+    /* ===== SNS ===== */
+    .sns{
+      margin-top: 20px;
+      display:flex;
+      justify-content:center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .sns a{
+      border: 2px solid #111;
+      background: rgba(255,255,255,.65);
+      padding: 10px 12px;
+      border-radius: 999px;
+      font-weight: 950;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-size: 13px;
+      opacity: .85;
+    }
+    .sns a:hover{
+      opacity: 1;
+      text-decoration:none;
+    }
+
+    footer{
+      padding: 52px 0 80px;
+      color: rgba(0,0,0,.7);
+      text-align:center;
+      font-size: 12.5px;
+    }
+
+    @media (max-width: 720px){
+      :root{
+        --pagePadY: 56px;
+        --framePad: 24px;
+      }
+      .artist,
+      .artist.alt{
+        grid-template-columns: 1fr;
+      }
+      .artist.alt .photo{
+        order: 0;
+        border-left: none;
+      }
+      .photo{
+        height: 220px;
+        border-right: none;
+        border-bottom: 2px solid #111;
+      }
+      .js .reveal.from-left,
+      .js .reveal.from-right{
+        transform: translateY(18px); /* モバイルは縦方向だけでもOK */
+      }
+      .js .reveal.in{
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav class="nav" aria-label="ページ内ナビ">
+      <a fref="img">Logo</a>
+      <a fref="#eb">EB生からの思い</a>
+      <a href="#top">Top</a>
+      <a href="#artists">Artists</a>
+      <a href="#about">About</a>
+      <a href="#venue">Location</a>
+      <a href="#tickets">Ticket</a>
+      <a href="#sns">SNS</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <p class="hero-kicker">下のタイトルはロゴに再S替え</p>
+      <h1 class="hero-title">Spark＿Self</h1>
+
+      <p class="hero-sub">概要<br>概要<br>概要</p>
+
+
+      <div class="hero-actions">
+        <a class="btn btn--fill" href="#tickets">Ticket</a>
+        <a class="btn" href="#artists">Artists</a>
+      </div>
+    </section>
+
+    <div class="wrap">
+
+        <section id="eb" class="frame frame--artists">
+            <p>
+                aaaa
+            </p>
+        </section>
+
+      <!-- Artists -->
+      <section id="artists" class="frame frame--artists">
+        <p class="kicker">Artists</p>
+        <h2>出演アーティスト</h2>
+        <p class="desc"></p>
+
+        <div class="stack">
+
+          <!-- 1: Spark_Self（○ーー / 左から） -->
+          <article class="artist reveal from-left">
+            <!-- 画像を入れるなら hasimg を付けて background-image 指定
+            <div class="photo hasimg" style="background-image:url('images/kv.jpg');" aria-label="KV"></div>
+            -->
+            <div class="photo" aria-label="Key Visual Placeholder"></div>
+
+            <div class="artist-body">
+              <p class="artist-title">Spark＿Self(kv)</p>
+              <p class="artist-sub">Special Live Site
+DATE / OPEN-START / Location などをここに入れる（後で）</p>
+
+            </div>
+          </article>
+
+          <!-- 2: らそんぶる（ーー○ / 右から） -->
+          <article class="artist alt reveal from-right">
+            <!-- <div class="photo hasimg" style="background-image:url('images/rasanble.jpg');" aria-label="らそんぶる"></div> -->
+            <div class="photo" aria-label="らそんぶる photo"></div>
+
+            <div class="artist-body">
+              <p class="artist-title">らそんぶる</p>
+              <p class="artist-sub">ガールズバンド</p>
+            </div>
+          </article>
+
+          <!-- 3: Gum-9（○ーー / 左から） -->
+          <article class="artist reveal from-left">
+            <!-- <div class="photo hasimg" style="background-image:url('images/gum9.jpg');" aria-label="Gum-9"></div> -->
+            <div class="photo" aria-label="Gum-9 photo"></div>
+
+            <div class="artist-body">
+              <p class="artist-title">Gum-9</p>
+              <p class="artist-sub">りゅーじん</p>
+            </div>
+          </article>
+
+          <!-- 4: ふぃっしゅあんどりっぷす（ーー○ / 右から） -->
+          <article class="artist alt reveal from-right">
+            <!-- <div class="photo hasimg" style="background-image:url('images/fishanddrips.jpg');" aria-label="ふぃっしゅあんどりっぷす"></div> -->
+            <div class="photo" aria-label="ふぃっしゅあんどりっぷす photo"></div>
+
+            <div class="artist-body">
+              <p class="artist-title">ふぃっしゅあんどりっぷす</p>
+              <p class="artist-sub">若い</p>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- About -->
+      <section id="about" class="frame frame--about">
+        <p class="kicker">About</p>
+        <h2>概要</h2>
+        <p class="desc">概要
+プレイリリース</p>
+      </section>
+
+      <!-- Location -->
+      <section id="venue" class="frame frame--venue">
+        <p class="kicker">Location</p>
+        <h2>場所</h2>
+        <p class="desc">代官山UNIT / 住所 / アクセスマップ。</p>
+      </section>
+
+      <!-- Ticket -->
+      <section id="tickets" class="frame frame--tickets">
+        <p class="kicker">Ticket</p>
+        <h2>チケット</h2>
+        <p class="desc">券種ごとにチケットサイトリンク（後で）。</p>
+
+        <details open>
+          <summary>
+            <span>一般</span>
+            <span class="sum-muted">¥0,000 / 期間TBA</span>
+          </summary>
+          <div class="detail-inner">
+            <div>・購入リンク（後で）</div>
+            <div>・注意事項（後で）</div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            <span>当日</span>
+            <span class="sum-muted">¥0,000 / 当日</span>
+          </summary>
+          <div class="detail-inner">
+            <div>・購入リンク（後で）</div>
+          </div>
+        </details>
+      </section>
+
+      <!-- SNS -->
+      <section id="sns" class="frame frame--sns">
+        <p class="kicker">Social</p>
+        <h2>SNS</h2>
+        <p class="desc">公式リンクを並べるだけ。</p>
+
+        <div class="sns">
+          <a href="#" target="_blank" rel="noopener">X</a>
+          <a href="#" target="_blank" rel="noopener">Instagram</a>
+          <a href="#" target="_blank" rel="noopener">TikTok</a>
+          <a href="#top">Top</a>
+        </div>
+      </section>
+
+      <footer>
+        © <span id="year"></span> Spark＿Self
+      </footer>
+
+    </div>
+  </main>
+
+  <script>
+    // footer year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // nav active (section in view)
+    const navLinks = [...document.querySelectorAll(".nav a")];
+    const sections = navLinks
+      .map(a => document.querySelector(a.getAttribute("href")))
+      .filter(Boolean);
+
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        navLinks.forEach(a => a.classList.remove("active"));
+        const hit = navLinks.find(a => a.getAttribute("href") === `#${e.target.id}`);
+        if (hit) hit.classList.add("active");
+      });
+    }, { rootMargin: "-40% 0px -55% 0px", threshold: 0.01 });
+
+    sections.forEach(s => obs.observe(s));
+
+    // artists reveal（消えっぱなし防止：DOMContentLoadedで確実に）
+    document.addEventListener("DOMContentLoaded", () => {
+      const revealEls = document.querySelectorAll(".reveal");
+      if (!revealEls.length) return;
+
+      const revealObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in");
+            revealObs.unobserve(entry.target); // 1回だけ出現
+          }
+        });
+      }, {
+        threshold: 0.18,
+        rootMargin: "0px 0px -10% 0px"
+      });
+
+      revealEls.forEach(el => revealObs.observe(el));
+    });
+  </script>
+</body>
+</html>
+
+
+
+	<section class="section" id="message" aria-label="EB生からのメッセージ">
+	<h2 class="section-title">EB生からのメッセージ</h2>
+
+	<div class="card">
+		<p class="lead">写真をタップするとメッセージが開きます。</p>
+
+		<div class="people-grid" aria-label="EB生一覧">
+		<!-- 例：1人目 -->
+		<button
+			class="person"
+			type="button"
+			data-name="山田 太郎"
+			data-img="img/people/01.jpg"
+			data-msg="あああああああああああああああ
+			ああああああああああああああああ
+			あああああああああああああああ\n改行もOK。\n\n2段落もOK。"
+			aria-label="山田 太郎のメッセージを開く"
+		>
+			<img class="person-img" src="img/people/01.jpg" alt="山田 太郎" loading="lazy">
+			<span class="person-name">山田 太郎</span>
+		</button>
+
+		<!-- 2人目 -->
+		<button
+			class="person"
+			type="button"
+			data-name="佐藤 花子"
+			data-img="img/people/02.jpg"
+			data-msg="メッセージ本文"
+			aria-label="佐藤 花子のメッセージを開く"
+		>
+			<img class="person-img" src="img/people/02.jpg" alt="佐藤 花子" loading="lazy">
+			<span class="person-name">佐藤 花子</span>
+		</button>
+
+		<!-- …ここから22人分コピペで増やす（03.jpg〜22.jpg） -->
+		</div>
+	</div>
+
+	<!-- モーダル（セクションの末尾に置けばOK） -->
+	<div class="msg-modal" id="msgModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="メッセージ">
+		<button class="msg-backdrop" type="button" data-close aria-label="閉じる"></button>
+
+		<div class="msg-panel" role="document">
+		<button class="msg-close" type="button" data-close aria-label="閉じる">×</button>
+
+		<div class="msg-head">
+			<img class="msg-avatar" id="msgAvatar" src="" alt="" loading="lazy">
+			<div class="msg-meta">
+			<p class="msg-name" id="msgName">Name</p>
+			<p class="msg-sub">EB Member Message</p>
+			</div>
+		</div>
+
+		<p class="msg-text" id="msgText"></p>
+		</div>
+	</div>
+	</section>
